@@ -1,8 +1,18 @@
 import Webcam from "react-webcam";
-import { useRef } from "react";
+import { 
+    useRef,
+    useState,
+    useCallback 
+} from "react";
 
 const CustomWebcam = () => {
     const webcamRef = useRef(null);
+    const [imgSrc, setImgSrc] = useState(null);
+
+    const capture = useCallback(() => {
+        const imageSrc = webcamRef.current.getScreenshot();
+        setImgSrc(imageSrc);
+    })
 
     return (
         <Webcam
