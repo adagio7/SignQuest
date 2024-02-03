@@ -11,7 +11,6 @@ import mediapipe as mp
 from keras.models import load_model
 
 model = load_model('models/smnist.keras')
-model.summary()
 
 # Initialize Mediapipe Hands
 mp_hands = mp.solutions.hands
@@ -48,8 +47,8 @@ while cap.isOpened():
 
     if results.multi_hand_landmarks:
         analysisframe = frame
-        showframe = analysisframe
-        cv2.imshow("Frame", showframe)
+        # showframe = analysisframe
+        # cv2.imshow("Frame", showframe)
 
         framergbanalysis = cv2.cvtColor(analysisframe, cv2.COLOR_BGR2RGB)
         results = hands.process(framergbanalysis)
@@ -62,14 +61,11 @@ while cap.isOpened():
 
                 for lmanalysis in landmarks.landmark:
                     x, y = int(lmanalysis.x * w), int(lmanalysis.y * h)
-                    if x > x_max:
-                        x_max = x
-                    if x < x_min:
-                        x_min = x
-                    if y > y_max:
-                        y_max = y
-                    if y < y_min:
-                        y_min = y
+                    x_max = max(x, x_max)
+                    x_min = min(0, x, x_min)
+                    y_max = max(y, y_max)
+                    y_min = min(0, y, y_min)
+
                 y_min -= 20
                 y_max += 20
                 x_min -= 20
@@ -89,32 +85,27 @@ while cap.isOpened():
                 nlist.append(k)
         
         datan = pd.DataFrame(nlist).T
-        colname = []
-        for val in range(784):
-            colname.append(val)
-        datan.columns = colname
+        datan.columns = [i for i in range(28 ** 2)]
 
         pixeldata = datan.values
         pixeldata = pixeldata / 255
         pixeldata = pixeldata.reshape(-1,28,28,1)
         prediction = model.predict(pixeldata)
         predarray = np.array(prediction[0])
-        
+
         letter_prediction_dict = {letters[i]: predarray[i] for i in range(len(letters))}
         predarrayordered = sorted(predarray, reverse=True)
-        high1 = predarrayordered[0]
-        high2 = predarrayordered[1]
-        high3 = predarrayordered[2]
-        for key,value in letter_prediction_dict.items():
-            if value==high1:
-                print("Predicted Character 1: ", key)
-                print('Confidence 1: ', 100*value)
-            # elif value==high2:
-            #     print("Predicted Character 2: ", key)
-            #     print('Confidence 2: ', 100*value)
-            # elif value==high3:
-            #     print("Predicted Character 3: ", key)
-            #     print('Confidence 3: ', 100*value)
+
+        print(predarray)
+        for key, value in letter_prediction_dict.items():
+            if value == predarrayordered[0]:
+                print("Predicted Character: ", key)
+                print("Prediction: ", value*100, "%")
+                break
+
+        # ordered_predarray = sorted(predarray, reverse=True)
+        # print("Predicted Character: ", letters[np.argmax(prediction)])
+
         time.sleep(5)
 
     # Display the frame
