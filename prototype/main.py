@@ -1,6 +1,6 @@
 import time
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import cv2
 import tensorflow as tf
@@ -16,9 +16,9 @@ model.summary()
 # Initialize Mediapipe Hands
 mp_hands = mp.solutions.hands
 hands = mp_hands.Hands(
-    static_image_mode=False, 
-    max_num_hands=1, 
-    min_detection_confidence=0.7, 
+    static_image_mode=False,
+    max_num_hands=1,
+    min_detection_confidence=0.7,
     min_tracking_confidence=0.5
 )
 
@@ -73,7 +73,7 @@ while cap.isOpened():
                 y_min -= 20
                 y_max += 20
                 x_min -= 20
-                x_max += 20 
+                x_max += 20
 
                 mp_drawing.draw_landmarks(frame, landmarks, mp_hands.HAND_CONNECTIONS)
 
@@ -87,7 +87,7 @@ while cap.isOpened():
             for j in range(cols):
                 k = analysisframe[i,j]
                 nlist.append(k)
-        
+
         datan = pd.DataFrame(nlist).T
         colname = []
         for val in range(784):
@@ -99,7 +99,7 @@ while cap.isOpened():
         pixeldata = pixeldata.reshape(-1,28,28,1)
         prediction = model.predict(pixeldata)
         predarray = np.array(prediction[0])
-        
+
         letter_prediction_dict = {letters[i]: predarray[i] for i in range(len(letters))}
         predarrayordered = sorted(predarray, reverse=True)
         high1 = predarrayordered[0]
