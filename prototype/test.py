@@ -3,7 +3,17 @@ import mediapipe as mp
 
 # Initialize Mediapipe Hands
 mp_hands = mp.solutions.hands
-hands = mp_hands.Hands(static_image_mode=False, max_num_hands=1, min_detection_confidence=0.7, min_tracking_confidence=0.5)
+hands = mp_hands.Hands(
+    static_image_mode=False, 
+    max_num_hands=1, 
+    min_detection_confidence=0.7, 
+    min_tracking_confidence=0.5
+)
+
+mp_drawing = mp.solutions.drawing_utils
+
+# analysed_frame = ''
+# letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
 # OpenCV Setup
 cap = cv2.VideoCapture(0)  # Use 0 for the default camera
@@ -13,6 +23,8 @@ cap.set(4, height)
 
 while cap.isOpened():
     ret, frame = cap.read()
+    w, h, c = frame.shape
+
     if not ret:
         break
 
@@ -23,12 +35,34 @@ while cap.isOpened():
     results = hands.process(rgb_frame)
 
     if results.multi_hand_landmarks:
+        for hand_landmarks in results.multi_hand_landmarks:
+            x_max = 0
+            y_max = 0
+            x_min = w
+            y_min = h
+
+            for lm in hand_landmarks.landmark:
+                x, y = int(lm.x * w), int(lm.y * h)
+                if x > x_max:
+                    x_max = x
+                if x < x_min:
+                    x_min = x
+                if y > y_max:
+                    y_max = y
+                if y < y_min:
+                    y_min = y
+            y_min -= 20
+            y_max += 20
+            x_min -= 20
+            x_max += 20
+            cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
+            mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+        
         # Extract hand landmarks
-        landmarks = results.multi_hand_landmarks[0].landmark
+        # landmarks = results.multi_hand_landmarks[0].landmark
 
         # TODO: Implement gesture recognition based on the landmarks
         # You can use these landmarks to recognize specific ASL gestures
-
     # Display the frame
     cv2.imshow("ASL Detector", frame)
 
