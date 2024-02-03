@@ -55,7 +55,7 @@ while cap.isOpened():
             y_max += 20
             x_min -= 20
             x_max += 20
-            cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
+            # cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
             mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
         
         # Extract hand landmarks
