@@ -1,0 +1,191 @@
+/* global.css */
+
+/* Shared styles */
+.flex-container {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Main content styles */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+.random-letter {
+  text-align: center;
+}
+
+/* Home icon styles */
+/* Home icon styles */
+.home-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+}
+
+/* Start Page styles */
+.content-container {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.slogan-container {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+/* Home Page styles */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.score-container h2 {
+  margin: 0;
+}
+
+.slogan-container {
+  max-width: 650px;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Adjust the gap as needed */
+}
+
+
+/* Name input section */
+.name-input {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.name-input label {
+  display: block;
+}
+
+.name-input input {
+  flex: 1;
+  height: 48px;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid #3B82F6;
+  border-radius: 4px;
+  background: transparent;
+  padding: 8px 12px;
+  margin-top: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.25s;
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+.name-input input:focus {
+  outline: none;
+  border-color: #93C5FD;
+}
+
+.name-input button {
+  margin-top: 1rem;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 4px;
+  background-color: #3B82F6;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.25rem;
+}
+
+/* Greeting section */
+.greeting {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.greeting button {
+  margin-right: 8px;
+}
+
+/* Leaderboard styles */
+.leaderboard-container {
+  max-height: 200px; /* Set the maximum height for the non-scrollable leaderboard */
+  overflow: hidden; /* Hide the overflow */
+}
+
+.scrollable-leadersdboard {
+  max-height: 200px; /* Set the maximum height for the scrollable leaderboard */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.scrollable-leaderboard ol {
+  margin: 0; /* Remove default margin for ol */
+  padding: 0; /* Remove default padding for ol */
+}
+
+.scrollable-leaderboard li {
+  list-style: none; /* Remove list item bullets */
+  margin-bottom: 10px; /* Add some spacing between leaderboard items */
+}
+
+/* Add any additional leaderboard styling as needed */
+
+/* Other styles as needed */
+
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
